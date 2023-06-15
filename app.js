@@ -3,7 +3,6 @@ const request = require("request");
 const bodyParesr = require("body-parser");
 const https = require("https");
 require("dotenv").config();
-console.log(process.env);
 
 const app = express();
 app.use(express.static("public"));
@@ -36,7 +35,6 @@ app.post("/",function(req,res){
     });
 
     const api = process.env.API_KEY;
-    console.log(api);
     const id = process.env.LIST_ID;
     const jsonData = JSON.stringify(data);
     const url = "https://us13.api.mailchimp.com/3.0/lists/"+id;
@@ -46,7 +44,6 @@ app.post("/",function(req,res){
     }
     const request = https.request(url,options,function(response){
         response.on("data",function(data){
-            console.log(response.status);
             if(response.statusCode===200)
                 res.sendFile(__dirname + "/success.html");
             else
