@@ -2,6 +2,8 @@ const express = require("express");
 const request = require("request");
 const bodyParesr = require("body-parser");
 const https = require("https");
+require("dotenv").config();
+console.log(process.env);
 
 const app = express();
 app.use(express.static("public"));
@@ -33,14 +35,18 @@ app.post("/",function(req,res){
         res.redirect("/")
     });
 
+    const api = process.env.API_KEY;
+    console.log(api);
+    const id = process.env.LIST_ID;
     const jsonData = JSON.stringify(data);
-    const url = "https://us13.api.mailchimp.com/3.0/lists/8298f20dc7";
+    const url = "https://us13.api.mailchimp.com/3.0/lists/"+id;
     const options = {
         method: "POST",
-        auth: "Satyam_888:98e9fc6cb09c43da20b816c129069e4b-us13"
+        auth: "Satyam_888:"+api
     }
     const request = https.request(url,options,function(response){
         response.on("data",function(data){
+            console.log(response.status);
             if(response.statusCode===200)
                 res.sendFile(__dirname + "/success.html");
             else
@@ -57,6 +63,3 @@ app.post("/",function(req,res){
 app.listen(process.env.PORT || 3000,function(){
     console.log("listening");
 });
-
-// 98e9fc6cb09c43da20b816c129069e4b-us13
-//  8298f20dc7
